@@ -25,8 +25,8 @@ function init() {
         lives: 3
     }
     gIsHint = false;
-    var elModalSpan = document.querySelector('.modal span');
-    elModalSpan.innerText = '😀';
+    var elSmiley= document.querySelector('.smiley');
+    elSmiley.innerText = '😀';
     var elHintes = document.querySelectorAll('.hints span');
     for (var i = 0; i < elHintes.length; i++) {
         elHintes[i].style.display = 'inline';
@@ -94,7 +94,7 @@ function setMinesNegsCount(board) {
 }
 function checkClickType(elCell, i, j, e) {
     if (!gGame.isOn) {
-        if(!gGame.isFirstClick) return;
+        if (!gGame.isFirstClick) return;
         gStartTime = new Date();
         gTimerInterval = setInterval(renderTimer, 10);
         gGame.isOn = true;
@@ -124,51 +124,47 @@ function cellClicked(elCell, i, j) {
         generateMines(gBoard, i, j);
         setMinesNegsCount(gBoard);
         gGame.isFirstClick = false;
-        revealNegs(i, j, i, j);
         gGame.shownCount++;
-        console.log('gGame.shownCount', gGame.shownCount)
-        console.log(gBoard)
+        revealNegs(i, j, i, j);
+        // console.log('gGame.shownCount', gGame.shownCount)
+        // console.log(gBoard)
         return;
     }
 
-    elCell.classList.remove('covered')
     var currCell = gBoard[i][j];
     currCell.isShown = true;
     var cellMineCount = currCell.minesAroundCount;
     //if mine
     if (currCell.isMine) {
+        elCell.classList.remove('covered')
         gGame.shownMinesCount++;
         elCell.innerText = MINE;
         if (!gelClickedMine) {
             gelClickedMine = elCell;
         } else {
-            gelClickedMine.classList.remove('clicked-mine')
+            gelClickedMine.classList.remove('clicked-mine');
         }
         gelClickedMine = elCell;
-        gelClickedMine.classList.add('clicked-mine')
+        gelClickedMine.classList.add('clicked-mine');
         //check Game over
-        if (checkGameOver()) {
-            endGame(false);
-            return;
-        }
-    } else if (cellMineCount) {
+        if (checkGameOver()) endGame(false);
+        if (checkVictory()) endGame(true);
+        return;
+    }
+
+    if (elCell.classList.contains('covered')) {
+        gGame.shownCount++;
+    }
+    elCell.classList.remove('covered');
+    if (cellMineCount) {
         //if has mines negs
         elCell.innerText = cellMineCount;
-        gGame.shownCount++;
-        console.log('gGame.shownCount', gGame.shownCount)
-
+        renderCountColor(elCell, cellMineCount);
+        // console.log('gGame.shownCount', gGame.shownCount)
     } else {
         //if doesn't have mines negs
-        gGame.shownCount++;
-        console.log('gGame.shownCount', gGame.shownCount)
-
+        // console.log('gGame.shownCount', gGame.shownCount)
         elCell.innerText = EMPTY;
-        // if (gGame.isFirstClick) {
-        //     generateMines(gBoard);
-        //     setMinesNegsCount(gBoard);
-        //     gGame.isFirstClick = false;
-        //     return;
-        // }
         revealNegs(i, j, i, j);
     }
     //check victory
@@ -205,10 +201,11 @@ function revealNegs(rowIdx, colIdx, prevI, prevJ) {
                 // if (i !== prevI && j !== prevJ) revealNegs(i, j, rowIdx, colIdx);
             }
             else currElCell.innerText = currCell.minesAroundCount;
+            renderCountColor(currElCell, currCell.minesAroundCount);
             currElCell.classList.remove('covered');
             currElCell.isShown = true;
             gGame.shownCount++;
-            console.log('gGame.shownCount', gGame.shownCount)
+            console.log('gGame.shownCount revealNegs', gGame.shownCount)
 
         }
     }
@@ -233,7 +230,7 @@ function checkVictory() {
     return false;
 }
 function endGame(isWin) {
-    gGame.isOn=!gGame.isOn
+    gGame.isOn = !gGame.isOn
     clearInterval(gTimerInterval);
     if (isWin) {
         console.log('you win')
@@ -306,6 +303,25 @@ function safeClick() {
 //TODO:Undo
 //TODO:Manually positioned mines
 
+function renderCountColor(elCell, cellMineCount) {
+    switch (cellMineCount) {
+        case 1:
+            elCell.style.color = '#007ea7'
+            break;
+        case 2:
+            elCell.style.color = '#0ead69'
+            break;
+        case 3:
+            elCell.style.color = '#c32f27'
+            break;
+        case 4:
+            elCell.style.color = '#003459'
+            break;
+        case 5:
+            elCell.style.color = '#780116'
+            break;
+    }
+}
 
 
 

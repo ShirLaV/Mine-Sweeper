@@ -1,32 +1,68 @@
+*{
+    box-sizing: border-box;
+}
 body {
-    background-color: #ffd5c2;
-    text-align: center;
+    /* background-color: #ffd5c2; */
+    background-image: url(../images/background.jpg);
+background-size: cover;
     color: #588b8b;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0px;
 }
 h1{
-    font-size: 20px;
+    text-align: center;
+    font-size: 30px;
+    height: 70px;
+    padding: 15px;
+    background-color: #406161;
+    color: #ffd5c2;
+    margin: 0px;
+}
+p{
+    margin: 0px;
+    padding-bottom: 5px;
 }
 table {
     margin:auto;
     background-color: white;
+    border: solid #406161 2px;
 }
 .cell{
-    height: 25px;
-    width: 25px;
-    background-color: #aac7d6;
+    height: 32px;
+    width: 32px;
+    background-color: #e6cae5;
     text-align: center;
     color: #406161;
 }
 .covered {
     background-color: rgb(65, 79, 92);
-    box-shadow: 5px 5px 5px 0px #000000;
+    box-shadow: inset 0px 0px 10px 0px #000000;
 }
-.cell:hover {
+.covered:hover {
     background-color: rgb(89, 108, 126);
 }
 .clicked-mine{
     background-color: #c8553d;
+}
+.games-functions{
+    text-align: center;
+    margin: 0px;
+}
+.levels {
+/* background-color: #eedad1; */
+margin: 0px;
+padding: 10px;
+}
+.game-info {
+    background-color: #557979;
+    margin: auto;
+    height: 45px;
+    width: 600px;
+    color:#ffd5c2;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    padding-top: 5px;
 }
 .timer {
     display:inline;
@@ -36,14 +72,14 @@ table {
     display:inline;
     margin:0px 20px 10px 20px;
     font-size: 25px;
-    color: rgb(169, 71, 71)
+    color: rgb(240, 92, 92)
 }
 .hints{
     display:inline;
     margin:0px 20px 10px 20px;
 }
 .hinted{
-    text-shadow: 2px 2px 7px #df4848
+    text-shadow: 4px 4px 7px #0b2a1b
 }
 .safe-click{
     display:inline;
@@ -55,4 +91,19 @@ table {
     font-size: 9px;
     background-color: #609790;
     border-radius: 5px;
+}
+.smiley{
+    font-size: 35px;
+
+}
+.best-score{
+    position: absolute;
+    /* display: inline; */
+    background-color: white;
+    width: 200px;
+    height: 300px;
+    margin-left: 150px;
+    margin-top:100px;
+    border: solid #406161 2px;
+    padding-top: 10px;
 }
