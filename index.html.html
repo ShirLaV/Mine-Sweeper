@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Mine Sweeper - Shir Lavi</title>
+</head>
+
+<body onload="init()" oncontextmenu="return false;">
+
+    <div class="header">
+        <h1>MINE SWEEPER </h1>
+    </div>
+
+    <div class="Levels">
+        <p>Choose your level:</p>
+        <label><b>Beginner</b>
+            <input type="radio" data-size="4" data-mines="2" checked="checked" name="radio"
+                onclick="chooseBoardSize(this)" value="4" />
+        </label>
+        <label><b>Medium</b>
+            <input type="radio" data-size="8" data-mines="12" name="radio" onclick="chooseBoardSize(this)" value="8" />
+        </label>
+        <label><b>Expert</b>
+            <input type="radio" data-size="12" data-mines="30" name="radio" onclick="chooseBoardSize(this)"
+                value="12" />
+        </label>
+    </div> <br>
+
+    <div class="timer">Time: <span>00:000</span></div>|
+    <div class="lives"><span></span></div>|
+    <div class="hints">
+        <span  onclick="getHint(this)">💡</span>
+        <span onclick="getHint(this)">💡</span>
+        <span onclick="getHint(this)">💡</span>
+    </div>|
+    <div class="safe-click"><button>safe click</button></div>
+
+    <div class="modal"><span class="smiley" onclick="init()">😃</span></div><br>
+
+    <div class="board-container">
+        <table>
+            <tbody class="game-board" border="1"></tbody>
+        </table>
+    </div>
+
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

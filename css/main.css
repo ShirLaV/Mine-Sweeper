@@ -1,0 +1,58 @@
+body {
+    background-color: #ffd5c2;
+    text-align: center;
+    color: #588b8b;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h1{
+    font-size: 20px;
+}
+table {
+    margin:auto;
+    background-color: white;
+}
+.cell{
+    height: 25px;
+    width: 25px;
+    background-color: #aac7d6;
+    text-align: center;
+    color: #406161;
+}
+.covered {
+    background-color: rgb(65, 79, 92);
+    box-shadow: 5px 5px 5px 0px #000000;
+}
+.cell:hover {
+    background-color: rgb(89, 108, 126);
+}
+.clicked-mine{
+    background-color: #c8553d;
+}
+.timer {
+    display:inline;
+    margin-right: 20px;
+}
+.lives {
+    display:inline;
+    margin:0px 20px 10px 20px;
+    font-size: 25px;
+    color: rgb(169, 71, 71)
+}
+.hints{
+    display:inline;
+    margin:0px 20px 10px 20px;
+}
+.hinted{
+    text-shadow: 2px 2px 7px #df4848
+}
+.safe-click{
+    display:inline;
+    margin-left: 20px
+}
+.safe-click button{
+    height: 20px;
+    width: 60px;
+    font-size: 9px;
+    background-color: #609790;
+    border-radius: 5px;
+}
