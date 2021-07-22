@@ -35,6 +35,7 @@ function resetParameters() {
     gCurrMove = {
         isFirstClick: true,
         shownCount: 0,
+        markedCount: 0,
         uncoveredElCells: [],
         searchedCells: []
     };
@@ -234,7 +235,7 @@ function checkGameOver() {
     return false;
 }
 function checkVictory() {
-    // console.log('gGame.shownCount', gGame.shownCount)
+    console.log('gGame.shownCount', gGame.shownCount)
     if (gGame.shownMinesCount + gGame.markedCount === gLevel.mines) {
         if (gGame.shownCount === gLevel.size ** 2 - gLevel.mines) return true;
     }
@@ -312,6 +313,7 @@ function firstClick(elCell, i, j) {
 function clickedMine(elCell) {
     elCell.classList.remove('covered')
     gGame.shownMinesCount++;
+    gCurrMove.markedCount++;
     elCell.innerText = MINE;
     if (!gElClickedMine) {
         gElClickedMine = elCell;

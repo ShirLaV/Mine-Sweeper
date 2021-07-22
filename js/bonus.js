@@ -90,6 +90,7 @@ function undo() {
     if (!gGame.isOn) return;
     var prevMove = gPrevMoves.pop();
     gGame.shownCount -= prevMove.shownCount;
+    gGame.shownMinesCount -= prevMove.markedCount;
     resetSearchedCells(prevMove);
     for (var i = 0; i < prevMove.uncoveredElCells.length; i++) {
         var elCell = prevMove.uncoveredElCells[i];
@@ -99,17 +100,13 @@ function undo() {
     }
 }
 function savePrevMove() {
-    var preMove = {
-        isFirstClick: gCurrMove.isFirstClick,
-        shownCount: gCurrMove.shownCount,
-        uncoveredElCells: gCurrMove.uncoveredElCells,
-        searchedCells: gCurrMove.searchedCells
-    }
+    var preMove = { ...gCurrMove };
     gPrevMoves.push(preMove);
     resetCurrMove();
 }
 function resetCurrMove() {
     gCurrMove.shownCount = 0;
+    gCurrMove.markedCount = 0;
     gCurrMove.uncoveredElCells = [];
     gCurrMove.searchedCells = [];
 }
@@ -158,11 +155,11 @@ function revealNegs(rowIdx, colIdx) {
             var currCell = gBoard[i][j];
             if (currCell.isShown) continue;
             if (currCell.isSearced) continue;
-            if (i === rowIdx && j === colIdx){
+            if (i === rowIdx && j === colIdx) {
                 gGame.shownCount++;
                 gCurrMove.shownCount++;
                 continue
-            } 
+            }
             var currElCell = document.querySelector(`.cell-${i}-${j}`);
             if (currElCell.innerText === FLAG) continue
             if (currCell.isMine) continue;
