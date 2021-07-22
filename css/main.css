@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+    color: #588b8b;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+h1 {
+    text-align: center;
+    font-size: 30px;
+    height: 70px;
+    padding: 15px;
+    background-color: #406161;
+    color: #ffd5c2;
+    margin: 0px;
+}
+p {
+    margin: 0px;
+    padding-bottom: 5px;
+}
+.games-functions {
+    text-align: center;
+    margin: 0px;
+}
+.levels {
+    margin: 0px;
+    padding: 10px;
+}
+.game-info {
+    background-color: #557979;
+    margin: auto;
+    position: static;
+    height: 45px;
+    width: 700px;
+    color: #ffd5c2;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+.timer {
+    display:inline;
+    margin-right: 20px;
+}
+.lives {
+    display:inline;
+    margin: 0px 20px 10px 20px;
+    font-size: 25px;
+    color: rgb(240, 92, 92)
+}
+.hints {
+    display: inline;
+    margin: 0px 20px 10px 20px;
+}
+.hinted {
+    text-shadow: 4px 4px 7px #0b2a1b;
+}
+.safe-click {
+    display:inline;
+    margin-left: 10px;
+    font-size: 12px;
+}
+.undo {
+    display:inline;
+    margin-left: 10px;
+    font-size: 12px;
+}
+button {
+    height: 20px;
+    width: 60px;
+    font-size: 9px;
+    background-color: #cca7c2;
+    color: #243333;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+.smiley {
+    font-size: 35px;
+
+}
+.best-score {
+    position:fixed;
+    background-color: rgb(255, 255, 255);
+    width: 200px;
+    height: 200px;
+    border: solid #406161 5px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding-top: 10px;
+}
+.footer {
+    bottom: 0px;
+    margin-left: 47%;
+    position: absolute;
+    font-size: 15px;
+}
