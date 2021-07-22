@@ -16,7 +16,13 @@
     </div>
 
     <div class="games-functions">
-        <!-- <div class="best-score">Best Scores</div> -->
+        <div class="best-score">
+            <h3>Best Scores</h3>
+                <p class="begginer">Begginer: <span>0</span></p>
+                <p class="medium">Medium: <span>0</span></p>
+                <p class="expert">Expert: <span>0</span></p>
+            
+        </div>
 
         <div class="levels">
             <p>Choose your level:</p>
@@ -41,11 +47,11 @@
                 <span onclick="getHint(this)">💡</span>
                 <span onclick="getHint(this)">💡</span>
             </div>|
-            <div class="safe-click"><button>safe click</button></div>
+            <div class="safe-click" onclick="safeClick()"><span>3</span> clicks available</span><button>safe click</button></div>
         </div>
-        <div class="modal"><span class="smiley" onclick="init()">😃</span></div><br>
+        <div><span class="smiley" onclick="init()">😃</span></div>
     </div>
-    
+    <br>
     <div class="board-container">
         <table>
             <tbody class="game-board" border="1"></tbody>
@@ -55,6 +61,7 @@
 
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/bonus.js"></script>
 </body>
 
 </html>

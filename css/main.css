@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 body {
@@ -7,9 +7,10 @@ body {
 background-size: cover;
     color: #588b8b;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin: 0px;
+    /* margin: 0px; */
+    text-align: center;
 }
-h1{
+h1 {
     text-align: center;
     font-size: 30px;
     height: 70px;
@@ -18,7 +19,7 @@ h1{
     color: #ffd5c2;
     margin: 0px;
 }
-p{
+p {
     margin: 0px;
     padding-bottom: 5px;
 }
@@ -27,7 +28,7 @@ table {
     background-color: white;
     border: solid #406161 2px;
 }
-.cell{
+.cell {
     height: 32px;
     width: 32px;
     background-color: #e6cae5;
@@ -41,10 +42,10 @@ table {
 .covered:hover {
     background-color: rgb(89, 108, 126);
 }
-.clicked-mine{
+.clicked-mine {
     background-color: #c8553d;
 }
-.games-functions{
+.games-functions {
     text-align: center;
     margin: 0px;
 }
@@ -57,7 +58,7 @@ padding: 10px;
     background-color: #557979;
     margin: auto;
     height: 45px;
-    width: 600px;
+    width: 700px;
     color:#ffd5c2;
     font-size: 20px;
     margin-bottom: 10px;
@@ -74,36 +75,47 @@ padding: 10px;
     font-size: 25px;
     color: rgb(240, 92, 92)
 }
-.hints{
+.hints {
     display:inline;
     margin:0px 20px 10px 20px;
 }
-.hinted{
+.hinted {
     text-shadow: 4px 4px 7px #0b2a1b
 }
-.safe-click{
+.safe-click {
     display:inline;
-    margin-left: 20px
+    margin-left: 10px;
+    font-size: 12px;
 }
-.safe-click button{
+.safe-click button {
     height: 20px;
     width: 60px;
     font-size: 9px;
-    background-color: #609790;
+    background-color: #cca7c2;
+    color: #243333;
     border-radius: 5px;
+    margin-left:10px;
+    margin-bottom: 20px;
 }
-.smiley{
+.safe-cell {
+    background-color: rgb(211, 133, 211);
+}
+.smiley {
     font-size: 35px;
 
 }
-.best-score{
-    position: absolute;
+.best-score {
     /* display: inline; */
-    background-color: white;
+    position:fixed;
+    background-color: rgb(255, 255, 255);
     width: 200px;
-    height: 300px;
-    margin-left: 150px;
-    margin-top:100px;
-    border: solid #406161 2px;
+    height: 200px;
+    /* margin-left: 150px; */
+    border: solid #406161 5px;
+    margin-top: 5px;;
+    margin-left: 5px;
     padding-top: 10px;
+}
+ul {
+    list-style:none;
 }
