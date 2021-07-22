@@ -32,21 +32,27 @@ p {
 .game-info {
     background-color: #557979;
     margin: auto;
-    position: static;
     height: 45px;
-    width: 700px;
+    width: 900px;
     color: #ffd5c2;
     font-size: 20px;
     margin-bottom: 10px;
     margin-top: 5px;
-    padding-top: 5px;
+    padding-top: 3px;
 }
 .timer {
-    display:inline;
-    margin-right: 20px;
+    /* display: inline; */
+    float: left;
+    font-size: 15px;
+    margin-right: 30px;
+    margin-left: 50px;
+    margin-top: 10px;
+
+    height: 20px;
+    width: 150px;
 }
 .lives {
-    display:inline;
+    display: inline;  
     margin: 0px 20px 10px 20px;
     font-size: 25px;
     color: rgb(240, 92, 92)
@@ -59,12 +65,18 @@ p {
     text-shadow: 4px 4px 7px #0b2a1b;
 }
 .safe-click {
-    display:inline;
+    display: inline;
     margin-left: 10px;
+    margin-right: 10px;
     font-size: 12px;
 }
 .undo {
-    display:inline;
+    display: inline;
+    margin-left: 10px;
+    font-size: 12px;
+}
+.manual {
+    display: inline;
     margin-left: 10px;
     font-size: 12px;
 }
@@ -93,8 +105,8 @@ button {
     padding-top: 10px;
 }
 .footer {
-    bottom: 0px;
-    margin-left: 47%;
-    position: absolute;
+    position: fixed;
+    bottom: 0;
+    left: 47%;
     font-size: 15px;
 }

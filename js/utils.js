@@ -25,20 +25,6 @@ function renderCell(location, value) {
     var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
     elCell.innerHTML = value;
 }
-//negs loop
-function getNegsMinesCount(mat, rowIdx, colIdx) {
-    var elementCounter = 0
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i > mat.length - 1) continue
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j > mat[0].length - 1) continue
-            if (i === rowIdx && j === colIdx) continue
-            var cell = mat[i][j];
-            if (cell.isMine) elementCounter++
-        }
-    }
-    return elementCounter;
-}
 function drawCell(cells) {
     return cells.pop()
 }
@@ -55,18 +41,16 @@ function shuffle(items) {
 }
 //timer
 function renderTimer() {
-    // to start time:
-    // gStartTime = new Date();
-    // gTimerInterval = setInterval(renderTimer, seconds);
-    // to stop time:
-    // clearInterval(gTimerInterval);
+
     var currentTime = new Date();
     var timeElapsed = new Date(currentTime - gStartTime);
     var sec = timeElapsed.getUTCSeconds();
     var ms = timeElapsed.getUTCMilliseconds();
-    //don't forget to put timer class in html
-    document.querySelector('.timer span').innerHTML = (sec > 9 ? sec : '0' + sec) + ':' +
-        (ms > 99 ? ms : ms > 9 ? '0' + ms : '00' + ms);
+    var min = timeElapsed.getUTCMinutes();
+
+    document.querySelector('.timer span').innerHTML = (min > 9 ? min : '0' + min) +':' 
+    + (sec > 9 ? sec : '0' + sec) + ':' +
+        (parseInt(ms/10));
 }
 
 
