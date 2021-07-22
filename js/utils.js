@@ -4,16 +4,6 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
-
-// function getRandomColor() {
-//     var letters = '0123456789ABCDEF';
-//     var color = '#';
-//     for (var i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }
-
 function getEmptyCells(board, rowIdx, colIdx) {
     var emptyCells = [];
     for (var i = 0; i < board.length; i++) {
@@ -29,14 +19,12 @@ function getEmptyCells(board, rowIdx, colIdx) {
     }
     return emptyCells;
 }
-
 function renderCell(location, value) {
     // location such as: {i: 2, j: 7}
     // Select the elCell and set the value
     var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
     elCell.innerHTML = value;
 }
-
 //negs loop
 function getNegsMinesCount(mat, rowIdx, colIdx) {
     var elementCounter = 0
@@ -51,11 +39,9 @@ function getNegsMinesCount(mat, rowIdx, colIdx) {
     }
     return elementCounter;
 }
-
 function drawCell(cells) {
     return cells.pop()
 }
-
 function shuffle(items) {
     var randIdx, keep, i;
     for (i = items.length - 1; i > 0; i--) {
@@ -67,7 +53,6 @@ function shuffle(items) {
     }
     return items;
 }
-
 //timer
 function renderTimer() {
     // to start time:
@@ -83,4 +68,7 @@ function renderTimer() {
     document.querySelector('.timer span').innerHTML = (sec > 9 ? sec : '0' + sec) + ':' +
         (ms > 99 ? ms : ms > 9 ? '0' + ms : '00' + ms);
 }
+
+
+
 

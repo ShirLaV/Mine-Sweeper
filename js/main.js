@@ -11,17 +11,14 @@ var gElClickedMine = null;
 var gStartTime;
 var gTimerInterval;
 var gHearts;
-var gIsHint;
-var gElHint;
-var gSafeElCell;
-var gIsSave;
+
 
 function init() {
-    rebootingParameters();
+    resetParameters();
     gBoard = buildBoard(gLevel.size);
     renderBoard(gBoard, 'game-board');
 }
-function rebootingParameters() {
+function resetParameters() {
     clearInterval(gTimerInterval);
     gGame = {
         isOn: false,
@@ -33,6 +30,12 @@ function rebootingParameters() {
         lives: 3,
         safeClicks: 3
     }
+    gPrevMoves = [];
+    gCurrMove = {
+        isFirstClick: true,
+        shownCount: 0,
+        uncoveredElCells: []
+    };
     gIsHint = false;
     var elSmiley = document.querySelector('.smiley');
     elSmiley.innerText = '😀';
@@ -120,67 +123,6 @@ function checkClickType(elCell, i, j, e) {
         if (elCell.innerText !== FLAG) cellClicked(elCell, i, j);
     }
 }
-//on left click, check cell and reveal accordingly
-function cellClicked(elCell, i, j) {
-
-    if (gIsHint) {
-        if (!elCell.classList.contains('covered')) return;
-        presentHint(i, j);
-        return;
-    }
-    //first Click
-    if (gGame.isFirstClick) {
-        elCell.classList.remove('covered')
-        generateMines(gBoard, i, j);
-        setMinesNegsCount(gBoard);
-        gGame.isFirstClick = false;
-        gGame.shownCount++;
-        revealNegs(i, j, i, j);
-        // console.log('gGame.shownCount', gGame.shownCount)
-        // console.log(gBoard)
-        return;
-    }
-
-    var currCell = gBoard[i][j];
-    currCell.isShown = true;
-    var cellMineCount = currCell.minesAroundCount;
-    //if cell is mine - uncover, check lost and return
-    if (currCell.isMine) {
-        elCell.classList.remove('covered')
-        gGame.shownMinesCount++;
-        elCell.innerText = MINE;
-        if (!gElClickedMine) {
-            gElClickedMine = elCell;
-        } else {
-            gElClickedMine.classList.remove('clicked-mine');
-        }
-        gElClickedMine = elCell;
-        gElClickedMine.classList.add('clicked-mine');
-        //check Game over
-        if (checkGameOver()) {
-            endGame(false);
-        } else if (checkVictory()) endGame(true);
-        return;
-    }
-
-    if (elCell.classList.contains('covered')) {
-        gGame.shownCount++;
-    }
-    elCell.classList.remove('covered');
-    //if has mines negs
-    if (cellMineCount) {
-        elCell.innerText = cellMineCount;
-        renderCountColor(elCell, cellMineCount);
-        // console.log('gGame.shownCount', gGame.shownCount)
-    } else {
-        //if doesn't have mines negs
-        // console.log('gGame.shownCount', gGame.shownCount)
-        elCell.innerText = EMPTY;
-        revealNegs(i, j, i, j);
-    }
-    //check victory
-    if (checkVictory()) endGame(true);
-}
 //on right click, mark the cell with flag
 function cellMarked(elCell) {
     if (elCell.innerText !== FLAG) {
@@ -195,31 +137,52 @@ function cellMarked(elCell) {
         if (elCell.classList.contains('mine')) gGame.markedCount--;
     }
 }
-function revealNegs(rowIdx, colIdx, prevI, prevJ) {
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i > gBoard.length - 1) continue
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j > gBoard[0].length - 1) continue
-            if (i === rowIdx && j === colIdx) continue
-            var currCell = gBoard[i][j];
-            var currElCell = document.querySelector(`.cell-${i}-${j}`);
-            if (!currElCell.classList.contains('covered')) continue;
-            if (currElCell.innerText === FLAG) continue
-            if (currCell.isMine) continue;
-            if (!currCell.minesAroundCount) {
-                currElCell.innerText = EMPTY;
-                // console.log('i-'+i+' j-'+j)
-                // if (i !== prevI && j !== prevJ) revealNegs(i, j, rowIdx, colIdx);
-            }
-            else currElCell.innerText = currCell.minesAroundCount;
-            renderCountColor(currElCell, currCell.minesAroundCount);
-            currElCell.classList.remove('covered');
-            currElCell.isShown = true;
-            gGame.shownCount++;
-        }
+//on left click, check cell and reveal accordingly
+function cellClicked(elCell, i, j) {
+    //in hint mode:
+    if (gIsHint) {
+        if (!elCell.classList.contains('covered')) return;
+        presentHint(i, j);
+        return;
     }
+    //first Click:
+    if (gGame.isFirstClick) {
+        firstClick(elCell, i, j);
+        return;
+    }
+
+    var currCell = gBoard[i][j];
+    currCell.isShown = true;
+    var cellMineCount = currCell.minesAroundCount;
+
+    //if cell is mine:
+    if (currCell.isMine) {
+        clickedMine(elCell);
+        return;
+    }
+
+    if (elCell.classList.contains('covered')) {
+        gGame.shownCount++;
+        //updating prev move for undo:
+        gCurrMove.shownCount++;
+        gCurrMove.uncoveredElCells.push(elCell);
+    }
+
+    elCell.classList.remove('covered');
+    //if has mines negs
+    if (cellMineCount) {
+        elCell.innerText = cellMineCount;
+        renderCountColor(elCell, cellMineCount);
+    } else {
+        //if doesn't have mines negs
+        elCell.innerText = EMPTY;
+        revealNegs(i, j, i, j);
+    }
+    savePrevMove();
+    //check victory
+    if (checkVictory()) endGame(true);
 }
-//if clicked MINE - check if there are still lives
+//if clicked MINE - check if there are still lives and update:
 function checkGameOver() {
     if (gGame.lives > 0) {
         gGame.lives--;
@@ -264,12 +227,14 @@ function endGame(isWin) {
     var elSmiley = document.querySelector('.smiley');
     elSmiley.innerText = (isWin) ? '😎' : '🤯'
 }
+//when clicked on level:
 function chooseBoardSize(elLevel) {
     gLevel.size = +elLevel.getAttribute('data-size');
     gLevel.mines = +elLevel.getAttribute('data-mines');
     clearInterval(gTimerInterval);
     init();
 }
+//render the colors of the numbers on the board (1- blue, 2- green...):
 function renderCountColor(elCell, cellMineCount) {
     switch (cellMineCount) {
         case 1:
@@ -289,6 +254,68 @@ function renderCountColor(elCell, cellMineCount) {
             break;
     }
 }
+function firstClick(elCell, i, j) {
+    generateMines(gBoard, i, j);
+    setMinesNegsCount(gBoard);
+    gGame.isFirstClick = false;
+    gCurrMove.isFirstClick = false;
+    gGame.shownCount++;
+    elCell.classList.remove('covered');
+    revealNegs(i, j, i, j);
+    //updating prev move for undo:
+    gCurrMove.shownCount++;
+    gCurrMove.uncoveredElCells.push(elCell);
+    savePrevMove();
+
+}
+function clickedMine(elCell) {
+    elCell.classList.remove('covered')
+    gGame.shownMinesCount++;
+    elCell.innerText = MINE;
+    if (!gElClickedMine) {
+        gElClickedMine = elCell;
+    } else {
+        gElClickedMine.classList.remove('clicked-mine');
+    }
+    gElClickedMine = elCell;
+    gElClickedMine.classList.add('clicked-mine');
+    //check Game over
+    if (checkGameOver()) {
+        endGame(false);
+    } else if (checkVictory()) endGame(true);
+    //updating prev move for undo:
+    gCurrMove.uncoveredElCells.push(elCell);
+    savePrevMove();
+}
+function revealNegs(rowIdx, colIdx, prevI, prevJ) {
+    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+        if (i < 0 || i > gBoard.length - 1) continue
+        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+            if (j < 0 || j > gBoard[0].length - 1) continue
+            if (i === rowIdx && j === colIdx) continue
+            var currCell = gBoard[i][j];
+            var currElCell = document.querySelector(`.cell-${i}-${j}`);
+            if (!currElCell.classList.contains('covered')) continue;
+            if (currElCell.innerText === FLAG) continue
+            if (currCell.isMine) continue;
+            if (!currCell.minesAroundCount) {
+                currElCell.innerText = EMPTY;
+                // console.log('i-'+i+' j-'+j)
+                // if (i !== prevI && j !== prevJ) revealNegs(i, j, rowIdx, colIdx);
+            }
+            else currElCell.innerText = currCell.minesAroundCount;
+            renderCountColor(currElCell, currCell.minesAroundCount);
+            currElCell.classList.remove('covered');
+            currElCell.isShown = true;
+            gGame.shownCount++;
+            //updating prev move for undo:
+            gCurrMove.shownCount++;
+            gCurrMove.uncoveredElCells.push(currElCell);
+        }
+    }
+}
+
+
 
 
 

@@ -1,4 +1,13 @@
 'use strict'
+
+var gIsHint;
+var gElHint;
+var gSafeElCell;
+var gIsSave;
+var gPrevMoves;
+var gCurrMove;
+var gPreMove;
+
 //hints:
 function getHint(elHint) {
     if (gGame.isFirstClick) return;
@@ -36,7 +45,6 @@ function presentHint(rowIdx, colIdx) {
     gIsHint = false;
     gElHint.style.display = 'none';
 }
-
 //safe click:
 function safeClick() {
     if (gGame.safeClicks <= 0) return;
@@ -51,8 +59,7 @@ function safeClick() {
     setTimeout(function () { gIsSave = false; gSafeElCell.classList.remove('safe-cell') }, 2000);
     document.querySelector('.safe-click span').innerText = --gGame.safeClicks;
 }
-
-//TODO:best score
+//best score:
 function checkBestScore(level, score) {
     var bestScore = localStorage.getItem(`${level}BestSecs`);
     //if not first time - update only if best score
@@ -70,19 +77,39 @@ function checkBestScore(level, score) {
     localStorage.setItem(`${level}BestScore`, score);
     document.querySelector(`.${level} span`).innerText = score;
 }
-
 function setBestScore(level) {
     var bestLevelScore = localStorage.getItem(`${level}BestScore`);
     document.querySelector(`.${level} span`).innerText = (bestLevelScore !== null) ? bestLevelScore : '00:000';
 }
-
-//TODO:fullexpand
-
-
-//TODO:Undo
-function Undo() {
-
+//Undo
+function undo() {
+    //if before first click - can't undo
+    if (gCurrMove.isFirstClick) return;
+    if (!gPrevMoves.length) return;
+    if(!gGame.isOn) return;
+    var prevMove = gPrevMoves.pop();
+    gGame.shownCount = prevMove.shownCount;
+    for (var i = 0; i < prevMove.uncoveredElCells.length; i++) {
+        var elCell = prevMove.uncoveredElCells[i];
+        elCell.classList.add('covered');
+        elCell.classList.remove('clicked-mine');
+        elCell.innerText = EMPTY;
+    }
+}
+function savePrevMove() {
+    var preMove = {
+        isFirstClick: gCurrMove.isFirstClick,
+        shownCount: gCurrMove.shownCount,
+        uncoveredElCells: gCurrMove.uncoveredElCells
+    }
+    gPrevMoves.push(preMove);
+    resetCurrMove();
+}
+function resetCurrMove() {
+    gCurrMove.shownCount = 0;
+    gCurrMove.uncoveredElCells = [];
 }
 
 //TODO:Manually positioned mines
 
+//TODO:fullexpand
