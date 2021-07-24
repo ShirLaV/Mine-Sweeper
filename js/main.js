@@ -96,9 +96,9 @@ function generateMines(board, rowIdx, colIdx) {
     // console.log(emptyCells)
     for (var i = 0; i < gLevel.mines; i++) {
         var currCell = drawCell(emptyCells);
-        gBoard[currCell.i][currCell.j].isMine = true;
+        gBoard[currCell.i][currCell.j].isMine = true;  
         var elCell = document.querySelector(`.cell-${currCell.i}-${currCell.j}`);
-        // elCell.classList.add('mine');
+        elCell.classList.add('mine');
     }
 }
 function setMinesNegsCount(board) {

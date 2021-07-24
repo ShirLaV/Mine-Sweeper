@@ -39,6 +39,7 @@ p {
     margin-bottom: 10px;
     margin-top: 5px;
     padding-top: 3px;
+
 }
 .timer {
     /* display: inline; */
@@ -92,7 +93,6 @@ button {
 }
 .smiley {
     font-size: 35px;
-
 }
 .best-score {
     position:fixed;

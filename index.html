@@ -16,14 +16,17 @@
         <h1>MINE SWEEPER </h1>
     </div>
 
+    <div class="best-score">
+        <h3>Best Scores</h3>
+        <p class="begginer">Begginer: <span>0</span></p>
+        <p class="medium">Medium: <span>0</span></p>
+        <p class="expert">Expert: <span>0</span></p>
+    </div>
+
+
+
     <div class="games-functions">
-        <div class="best-score">
-            <h3>Best Scores</h3>
-                <p class="begginer">Begginer: <span>0</span></p>
-                <p class="medium">Medium: <span>0</span></p>
-                <p class="expert">Expert: <span>0</span></p>
-            
-        </div>
+
 
         <div class="levels">
             <p>Choose your level:</p>
@@ -41,14 +44,16 @@
             </label>
         </div>
         <div class="game-info">
-            <div class="timer">Time: <span>00:00:00</span></div>| 
+            <div class="timer">Time: <span>00:00:00</span></div>|
             <div class="lives"><span></span></div>|
             <div class="hints">
                 <span onclick="getHint(this)">💡</span>
                 <span onclick="getHint(this)">💡</span>
                 <span onclick="getHint(this)">💡</span>
             </div>|
-            <div class="safe-click" onclick="safeClick()"><span>3</span> clicks available</span><button>safe click</button></div>|
+            <div class="safe-click" onclick="safeClick()"><span>3</span> clicks available</span><button>safe
+                    click</button>
+            </div>|
             <div class="undo"><button onclick="undo()">UNDO</button></div>|
             <div class="manual"><button onclick="toggleManualPosition(this)">Manual</button></div>
         </div>
